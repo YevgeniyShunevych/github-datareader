@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub.DataReader", "GitHub.DataReader\GitHub.DataReader.csproj", "{9E88F2AB-99D2-470F-A621-16DDFD52BAD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub.Components", "GitHub.Components\GitHub.Components.csproj", "{1B96A31B-B78D-427A-9CCC-FE49420FA98E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0B9203A-667E-4592-A1DA-8A2E8DCBE812}"
+	ProjectSection(SolutionItems) = preProject
+		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E88F2AB-99D2-470F-A621-16DDFD52BAD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E88F2AB-99D2-470F-A621-16DDFD52BAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E88F2AB-99D2-470F-A621-16DDFD52BAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E88F2AB-99D2-470F-A621-16DDFD52BAD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B96A31B-B78D-427A-9CCC-FE49420FA98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B96A31B-B78D-427A-9CCC-FE49420FA98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B96A31B-B78D-427A-9CCC-FE49420FA98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B96A31B-B78D-427A-9CCC-FE49420FA98E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA2E67C1-A88D-4D91-836F-0C7D3E1F9808}
+	EndGlobalSection
+EndGlobal
