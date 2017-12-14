@@ -41,10 +41,7 @@ namespace GitHub.DataReader
                 if (milestonePage.Issues.Exists(SearchOptions.SafelyAtOnce()))
                     issues.AddRange(milestonePage.Issues.ToModels().ToList());
 
-                if (milestonePage.Filters.States.Open.IsSelected)
-                    milestonePage.Filters.States.Closed.Click();
-                else
-                    milestonePage.Filters.States.Open.Click();
+                milestonePage.Filters.States.Toggle();
 
                 if (milestonePage.Issues.Exists(SearchOptions.SafelyAtOnce()))
                     issues.AddRange(milestonePage.Issues.ToModels());
@@ -61,7 +58,7 @@ namespace GitHub.DataReader
         {
             var issueGroups = issues.ToLookup(ResolveIssueGroup);
 
-            if (issueGroups.Count == 1 && issueGroups.Single().Key == "Other")
+            if (issueGroups.Count == 1 && issueGroups.Single().Key == IssueGroup.Other)
             {
                 return string.Join(Environment.NewLine, issues.Select(IssueToString));
             }
@@ -69,7 +66,7 @@ namespace GitHub.DataReader
             {
                 StringBuilder builder = new StringBuilder();
 
-                foreach (var group in issueGroups)
+                foreach (var group in issueGroups.OrderBy(x => x.Key))
                 {
                     if (builder.Length > 0)
                         builder.AppendLine().AppendLine();
@@ -85,18 +82,31 @@ namespace GitHub.DataReader
         private static string IssueToString(IssueSummaryModel issue)
             => $"- #{issue.Number} {issue.Title}";
 
-        private static string ResolveIssueGroup(IssueSummaryModel issue)
+        private static IssueGroup ResolveIssueGroup(IssueSummaryModel issue)
         {
             if (issue.Labels.Contains("feature"))
-                return "New Features";
+                return IssueGroup.Features;
 
             if (issue.Labels.Contains("enhancement"))
-                return "Changes and Enhancements";
+                return IssueGroup.Enhancements;
 
             if (issue.Labels.Contains("bug"))
-                return "Fixes";
+                return IssueGroup.Fixes;
 
-            return "Other";
+            return IssueGroup.Other;
+        }
+
+        public enum IssueGroup
+        {
+            [Term("New Features")]
+            Features,
+
+            [Term("Changes and Enhancements")]
+            Enhancements,
+
+            Fixes,
+
+            Other
         }
     }
 }

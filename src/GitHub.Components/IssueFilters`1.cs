@@ -18,6 +18,13 @@ namespace GitHub.Components
             [FindByIndex(1)]
             public ButtonLink Closed { get; private set; }
 
+            public TOwner Toggle()
+            {
+                (Open.IsSelected ? Closed : Open).Click();
+
+                return Owner;
+            }
+
             [ControlDefinition("a", ContainingClass = "btn-link")]
             public class ButtonLink : Link<TOwner>
             {
