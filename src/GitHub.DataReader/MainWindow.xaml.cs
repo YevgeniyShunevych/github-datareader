@@ -29,11 +29,7 @@ namespace GitHub.DataReader
 
         private IssueSummaryModel[] ReadIssues(string milestoneUrl)
         {
-            AtataContext.Configure().
-                UseChrome().
-                Build();
-
-            try
+            using (AtataContext.Configure().UseChrome().Build())
             {
                 var milestonePage = Go.To<MilestonePage>(url: milestoneUrl);
                 List<IssueSummaryModel> issues = new List<IssueSummaryModel>();
@@ -47,10 +43,6 @@ namespace GitHub.DataReader
                     issues.AddRange(milestonePage.Issues.ToModels());
 
                 return issues.ToArray();
-            }
-            finally
-            {
-                AtataContext.Current.CleanUp();
             }
         }
 
@@ -71,7 +63,9 @@ namespace GitHub.DataReader
                     if (builder.Length > 0)
                         builder.AppendLine().AppendLine();
 
-                    builder.AppendLine($"## {group.Key}").AppendLine();
+                    string gorupName = TermResolver.ToString(group.Key);
+
+                    builder.AppendLine($"## {gorupName}").AppendLine();
                     builder.Append(string.Join(Environment.NewLine, group.Select(IssueToString)));
                 }
 
