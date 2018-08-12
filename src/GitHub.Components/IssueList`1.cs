@@ -3,7 +3,7 @@ using Atata;
 
 namespace GitHub.Components
 {
-    [ControlDefinition("ul", ContainingClass = "js-active-navigation-container", ComponentTypeName = "issue list")]
+    [ControlDefinition("ul", ContainingClass = "js-milestone-issues-container", ComponentTypeName = "issue list")]
     public class IssueList<TOwner> : UnorderedList<IssueSummary<TOwner>, TOwner>
         where TOwner : PageObject<TOwner>
     {
