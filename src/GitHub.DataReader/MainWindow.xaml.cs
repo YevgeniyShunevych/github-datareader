@@ -78,6 +78,9 @@ namespace GitHub.DataReader
 
         private static IssueGroup ResolveIssueGroup(IssueSummaryModel issue)
         {
+            if (issue.Labels.Contains("breaking-change"))
+                return IssueGroup.BreakingChanges;
+
             if (issue.Labels.Contains("feature"))
                 return IssueGroup.Features;
 
@@ -92,6 +95,8 @@ namespace GitHub.DataReader
 
         public enum IssueGroup
         {
+            BreakingChanges,
+
             [Term("New Features")]
             Features,
 

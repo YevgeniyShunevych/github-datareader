@@ -9,7 +9,7 @@ namespace GitHub.Components
     {
         public IssueSummaryModel[] ToModels()
         {
-            return Items.Select(x => x.ToModel()).ToArray();
+            return Items.Where(x => x.Labels.Exists(SearchOptions.SafelyAtOnce())).Select(x => x.ToModel()).ToArray();
         }
     }
 }
