@@ -34,12 +34,12 @@ namespace GitHub.DataReader
                 var milestonePage = Go.To<MilestonePage>(url: milestoneUrl);
                 List<IssueSummaryModel> issues = new List<IssueSummaryModel>();
 
-                if (milestonePage.Issues.Exists(SearchOptions.SafelyAtOnce()))
-                    issues.AddRange(milestonePage.Issues.ToModels().ToList());
+                if (milestonePage.Issues.IsVisible)
+                    issues.AddRange(milestonePage.Issues.ToModels());
 
                 milestonePage.Filters.States.Toggle();
 
-                if (milestonePage.Issues.Exists(SearchOptions.SafelyAtOnce()))
+                if (milestonePage.Issues.IsVisible)
                     issues.AddRange(milestonePage.Issues.ToModels());
 
                 return issues.ToArray();
