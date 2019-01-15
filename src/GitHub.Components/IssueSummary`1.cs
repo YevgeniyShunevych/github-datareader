@@ -3,7 +3,7 @@ using Atata;
 
 namespace GitHub.Components
 {
-    [ControlDefinition("li", ComponentTypeName = "issue")]
+    [ControlDefinition("div", ContainingClass = "js-issue-row", ComponentTypeName = "issue")]
     public class IssueSummary<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
