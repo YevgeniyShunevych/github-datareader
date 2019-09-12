@@ -13,9 +13,11 @@ namespace GitHub.Components
         public class StatesFilter : Control<TOwner>
         {
             [FindByIndex(0)]
+            [WaitForLoadingIndicator]
             public ButtonLink Open { get; private set; }
 
             [FindByIndex(1)]
+            [WaitForLoadingIndicator]
             public ButtonLink Closed { get; private set; }
 
             public TOwner Toggle()
