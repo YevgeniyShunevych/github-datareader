@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Atata;
+using Atata.WebDriverSetup;
 using GitHub.Components;
 
 namespace GitHub.DataReader
@@ -29,7 +30,9 @@ namespace GitHub.DataReader
 
         private IssueSummaryModel[] ReadIssues(string milestoneUrl)
         {
-            using (AtataContext.Configure().UseChrome().Build())
+            DriverSetup.AutoSetUp(BrowserNames.Chrome);
+
+            using (AtataContext.Configure().UseChrome().WithArguments("headless").Build())
             {
                 var milestonePage = Go.To<MilestonePage>(url: milestoneUrl);
                 List<IssueSummaryModel> issues = new List<IssueSummaryModel>();
