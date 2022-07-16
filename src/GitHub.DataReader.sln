@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub.DataReader", "GitHub.DataReader\GitHub.DataReader.csproj", "{9E88F2AB-99D2-470F-A621-16DDFD52BAD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHub.DataReader", "GitHub.DataReader\GitHub.DataReader.csproj", "{9E88F2AB-99D2-470F-A621-16DDFD52BAD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub.Components", "GitHub.Components\GitHub.Components.csproj", "{1B96A31B-B78D-427A-9CCC-FE49420FA98E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F0B9203A-667E-4592-A1DA-8A2E8DCBE812}"
-	ProjectSection(SolutionItems) = preProject
-		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHub.Components", "GitHub.Components\GitHub.Components.csproj", "{1B96A31B-B78D-427A-9CCC-FE49420FA98E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
