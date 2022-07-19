@@ -22,10 +22,13 @@ namespace GitHub.Components
 
         public IssueSummaryModel ToModel()
         {
+            var title = Title.GetContent(ContentSource.InnerHtml)
+                .Value.Replace("<code>", "`").Replace("</code>", "`");
+
             return new IssueSummaryModel
             {
                 Number = Number,
-                Title = Title.Content,
+                Title = title,
                 Labels = Labels.Items.Select(x => x.Value).ToArray()
             };
         }
