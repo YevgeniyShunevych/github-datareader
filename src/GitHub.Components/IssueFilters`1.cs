@@ -30,9 +30,9 @@ namespace GitHub.Components
             [ControlDefinition("a", ContainingClass = "btn-link")]
             public class ButtonLink : Link<TOwner>
             {
-                public DataProvider<bool, TOwner> IsSelected => GetOrCreateDataProvider(
+                public ValueProvider<bool, TOwner> IsSelected => CreateValueProvider(
                     "selected",
-                    () => Attributes.Class.Value.Contains("selected"));
+                    () => DomClasses.Value.Contains("selected"));
             }
         }
     }

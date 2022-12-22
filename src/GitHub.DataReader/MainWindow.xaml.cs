@@ -28,14 +28,14 @@ namespace GitHub.DataReader
             }
         }
 
-        private IssueSummaryModel[] ReadIssues(string milestoneUrl)
+        private static IssueSummaryModel[] ReadIssues(string milestoneUrl)
         {
             DriverSetup.AutoSetUp(BrowserNames.Chrome);
 
             using (AtataContext.Configure().UseChrome().WithArguments("headless").Build())
             {
                 var milestonePage = Go.To<MilestonePage>(url: milestoneUrl);
-                List<IssueSummaryModel> issues = new List<IssueSummaryModel>();
+                List<IssueSummaryModel> issues = new();
 
                 if (milestonePage.Issues.IsVisible)
                     issues.AddRange(milestonePage.Issues.ToModels());
@@ -59,7 +59,7 @@ namespace GitHub.DataReader
             }
             else
             {
-                StringBuilder builder = new StringBuilder();
+                StringBuilder builder = new();
 
                 foreach (var group in issueGroups.OrderBy(x => x.Key))
                 {

@@ -12,11 +12,12 @@ namespace GitHub.Components
 
         public IssueLabelList<TOwner> Labels { get; private set; }
 
-        public DataProvider<int, TOwner> Number => GetOrCreateDataProvider("number", GetNumber);
+        public ValueProvider<int, TOwner> Number =>
+            CreateValueProvider("number", GetNumber);
 
         private int GetNumber()
         {
-            string numberAsString = Title.Attributes.Href.Value.Split('/').Last();
+            string numberAsString = Title.Href.Value.Split('/').Last();
             return int.Parse(numberAsString);
         }
 
