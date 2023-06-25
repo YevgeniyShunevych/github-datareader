@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Atata;
+using Atata.WebDriverSetup;
+using GitHub.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using Atata;
-using Atata.WebDriverSetup;
-using GitHub.Components;
 
 namespace GitHub.DataReader
 {
@@ -100,10 +100,10 @@ namespace GitHub.DataReader
         {
             BreakingChanges,
 
-            [Term("New Features")]
+            [Term("New features")]
             Features,
 
-            [Term("Changes and Enhancements")]
+            [Term("Changes and enhancements")]
             Enhancements,
 
             Fixes,
