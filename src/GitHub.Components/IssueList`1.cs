@@ -7,9 +7,7 @@ namespace GitHub.Components
     public class IssueList<TOwner> : ItemsControl<IssueSummary<TOwner>, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public IssueSummaryModel[] ToModels()
-        {
-            return Items.Where(x => x.Labels.IsVisible).Select(x => x.ToModel()).ToArray();
-        }
+        public IssueSummaryModel[] ToModels() =>
+            Items.Where(x => x.Labels.IsVisible).Select(x => x.ToModel()).ToArray();
     }
 }

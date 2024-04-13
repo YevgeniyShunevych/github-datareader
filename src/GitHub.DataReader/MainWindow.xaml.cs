@@ -1,114 +1,111 @@
-﻿using Atata;
-using Atata.WebDriverSetup;
-using GitHub.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using Atata;
+using Atata.WebDriverSetup;
+using GitHub.Components;
 
-namespace GitHub.DataReader
+namespace GitHub.DataReader;
+
+public partial class MainWindow : Window
 {
-    public partial class MainWindow : Window
+    public MainWindow() =>
+        InitializeComponent();
+
+    private void OnReadIssuesButtonClick(object sender, RoutedEventArgs e)
     {
-        public MainWindow()
+        string url = milestoneUrlTextBox.Text?.Trim();
+
+        if (!string.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
         {
-            InitializeComponent();
+            var issues = ReadIssues(url).OrderBy(x => x.Number);
+
+            resultTextBox.Text = IssuesToString(issues);
         }
+    }
 
-        private void OnReadIssuesButtonClick(object sender, RoutedEventArgs e)
+    private static IssueSummaryModel[] ReadIssues(string milestoneUrl)
+    {
+        DriverSetup.AutoSetUp(BrowserNames.Chrome);
+
+        using (AtataContext.Configure().UseChrome().WithArguments("headless").Build())
         {
-            string url = milestoneUrlTextBox.Text?.Trim();
+            var milestonePage = Go.To<MilestonePage>(url: milestoneUrl);
+            List<IssueSummaryModel> issues = new();
 
-            if (!string.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
+            if (milestonePage.Issues.IsVisible)
+                issues.AddRange(milestonePage.Issues.ToModels());
+
+            milestonePage.Filters.States.Toggle();
+
+            if (milestonePage.Issues.IsVisible)
+                issues.AddRange(milestonePage.Issues.ToModels());
+
+            return issues.ToArray();
+        }
+    }
+
+    private static string IssuesToString(IEnumerable<IssueSummaryModel> issues)
+    {
+        var issueGroups = issues.ToLookup(ResolveIssueGroup);
+
+        if (issueGroups.Count == 1 && issueGroups.Single().Key == IssueGroup.Other)
+        {
+            return string.Join(Environment.NewLine, issues.Select(IssueToString));
+        }
+        else
+        {
+            StringBuilder builder = new();
+
+            foreach (var group in issueGroups.OrderBy(x => x.Key))
             {
-                var issues = ReadIssues(url).OrderBy(x => x.Number);
+                if (builder.Length > 0)
+                    builder.AppendLine().AppendLine();
 
-                resultTextBox.Text = IssuesToString(issues);
+                string gorupName = TermResolver.ToString(group.Key);
+
+                builder.AppendLine($"## {gorupName}").AppendLine();
+                builder.Append(string.Join(Environment.NewLine, group.Select(IssueToString)));
             }
+
+            return builder.ToString();
         }
+    }
 
-        private static IssueSummaryModel[] ReadIssues(string milestoneUrl)
-        {
-            DriverSetup.AutoSetUp(BrowserNames.Chrome);
+    private static string IssueToString(IssueSummaryModel issue)
+        => $"- #{issue.Number} {issue.Title}";
 
-            using (AtataContext.Configure().UseChrome().WithArguments("headless").Build())
-            {
-                var milestonePage = Go.To<MilestonePage>(url: milestoneUrl);
-                List<IssueSummaryModel> issues = new();
+    private static IssueGroup ResolveIssueGroup(IssueSummaryModel issue)
+    {
+        if (issue.Labels.Contains("breaking-change"))
+            return IssueGroup.BreakingChanges;
 
-                if (milestonePage.Issues.IsVisible)
-                    issues.AddRange(milestonePage.Issues.ToModels());
+        if (issue.Labels.Contains("feature"))
+            return IssueGroup.Features;
 
-                milestonePage.Filters.States.Toggle();
+        if (issue.Labels.Contains("enhancement"))
+            return IssueGroup.Enhancements;
 
-                if (milestonePage.Issues.IsVisible)
-                    issues.AddRange(milestonePage.Issues.ToModels());
+        if (issue.Labels.Contains("bug"))
+            return IssueGroup.Fixes;
 
-                return issues.ToArray();
-            }
-        }
+        return IssueGroup.Other;
+    }
 
-        private static string IssuesToString(IEnumerable<IssueSummaryModel> issues)
-        {
-            var issueGroups = issues.ToLookup(ResolveIssueGroup);
+    public enum IssueGroup
+    {
+        BreakingChanges,
 
-            if (issueGroups.Count == 1 && issueGroups.Single().Key == IssueGroup.Other)
-            {
-                return string.Join(Environment.NewLine, issues.Select(IssueToString));
-            }
-            else
-            {
-                StringBuilder builder = new();
+        [Term("New features")]
+        Features,
 
-                foreach (var group in issueGroups.OrderBy(x => x.Key))
-                {
-                    if (builder.Length > 0)
-                        builder.AppendLine().AppendLine();
+        [Term("Changes and enhancements")]
+        Enhancements,
 
-                    string gorupName = TermResolver.ToString(group.Key);
+        Fixes,
 
-                    builder.AppendLine($"## {gorupName}").AppendLine();
-                    builder.Append(string.Join(Environment.NewLine, group.Select(IssueToString)));
-                }
-
-                return builder.ToString();
-            }
-        }
-
-        private static string IssueToString(IssueSummaryModel issue)
-            => $"- #{issue.Number} {issue.Title}";
-
-        private static IssueGroup ResolveIssueGroup(IssueSummaryModel issue)
-        {
-            if (issue.Labels.Contains("breaking-change"))
-                return IssueGroup.BreakingChanges;
-
-            if (issue.Labels.Contains("feature"))
-                return IssueGroup.Features;
-
-            if (issue.Labels.Contains("enhancement"))
-                return IssueGroup.Enhancements;
-
-            if (issue.Labels.Contains("bug"))
-                return IssueGroup.Fixes;
-
-            return IssueGroup.Other;
-        }
-
-        public enum IssueGroup
-        {
-            BreakingChanges,
-
-            [Term("New features")]
-            Features,
-
-            [Term("Changes and enhancements")]
-            Enhancements,
-
-            Fixes,
-
-            Other
-        }
+        Other
     }
 }

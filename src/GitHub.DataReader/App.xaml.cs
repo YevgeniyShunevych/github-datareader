@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
-namespace GitHub.DataReader
+namespace GitHub.DataReader;
+
+public partial class App : Application
 {
-    public partial class App : Application
-    {
-    }
 }
