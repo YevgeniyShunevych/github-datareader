@@ -96,6 +96,7 @@ public partial class MainWindow : Window
 
     public enum IssueGroup
     {
+        [Term("Breaking changes")]
         BreakingChanges,
 
         [Term("New features")]
